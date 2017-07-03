@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Checkout Form</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="frmLogin" class="checkout">
+        <div class="checkout-header">
+            <h1 class="checkout-title">
+                Login
+            </h1>
+        </div>
+        <p style="text-align: center">
+            <input type="text" class="checkout-input login-username" placeholder="Username" autofocus />
+            <input type="password" class="checkout-input login-password" placeholder="Password" />
+        </p>
+        <p>
+            <input type="button" id="btnSignin" value="Sign in" class="checkout-btn">
+        </p>
+
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#btnSignin").on('click', function () {
+                var authjson = { username: $(".login-username").val(), password: $(".login-password").val() };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://192.168.99.100:8000/api/authentication',
+                    //url: 'http://localhost:63911/api/authentication',
+                    data: JSON.stringify(authjson),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })
+                    .done(function (data) {
+                        if (data.isAuthenticated)
+                            location.href = 'Checkout.html';
+                        else
+                            alert('Username or password is invalid.');
+                    })
+                    .fail(function (ex) {
+                        alert(ex.responseText);
+                    })
+            });
+        });
+    </script>
+</body>
+</html>
